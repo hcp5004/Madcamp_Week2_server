@@ -85,7 +85,7 @@ module.exports = function(app, Contact,db) // when call module by require, this 
             if(err) return res.status(500).json({ error: "database failure" });
     
             // if(!output.result.n) return res.status(404).json({ error: "book not found" });
-            res.json({ message: 'contact deleted' });
+            res.json({ message: "contact deleted" });
         })
     });
 }
