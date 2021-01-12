@@ -43,6 +43,8 @@ var photorouter = require('./router/photomain')(app, Photo);
 var Plan = require('./models/plan');
 var planrouter = require('./router/planmain')(app, Plan)
 
+
+
 // var contact = new Contact({
 //     name: "NodeJS Tutorial",
 //     number: "velopert"

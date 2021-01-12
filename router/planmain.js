@@ -1,5 +1,22 @@
 module.exports = function(app, Plan)
 {
+    /////////message////////////
+
+    var admin = require("firebase-admin");
+
+    var serviceAccount = require("/home/ubuntu/server/cs496week2-39d97-firebase-adminsdk-fnpd2-f5f476444d.json")
+    // require("./cs496week2-39d97-firebase-adminsdk-fnpd2-f5f476444d.json");
+
+    admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+    });
+
+    //////////message/////////////
+
+    var registrationToken = "fwrYk4HjRLqXAC3D-LzVD1:APA91bG6_hiNStShOrUJtJLC-LIs1UTmQZ0ofuAjySlNkSx33Z7FD7gs2uu4y-9bpTcv3kkfIXkdzyslj5PjsXA60Q9UNJiWiP4ZB36bocBAHEEnP78af_KxzbYHCQcMx3pC_ywdSt6d"
+
+
+
     // GET ALL PLAN ... SEND ALL PLAN LIST
     app.get('/api/plan', function(req,res){
         Plan.find(function(err, plans){
@@ -22,6 +39,22 @@ module.exports = function(app, Plan)
                 res.json({result: 0});
                 return;
             }
+
+            var payload = {
+                notification: {
+                    title: "날짜:" + plan.time +" 장소:" + plan.place,
+                    body: plan.fullPeople + "명을 구합니다."
+                }
+            }
+        
+            admin.messaging().sendToDevice(registrationToken, payload)
+                .then(function(response){
+                    console.log("SUCCESSFUL MESSAGE", response);
+                })
+                .catch(function(error){
+                    console.log("ERROR MESSAGE", error)
+                });
+
             res.json({result: 1, _id: plan._id});
         });
     });
