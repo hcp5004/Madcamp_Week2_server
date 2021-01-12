@@ -40,6 +40,7 @@ module.exports = function(app, Plan)
                 plan.currentPeople = plan.liked.length
                 plan.save(function(err){
                     if(err) res.status(500).json({error: 'failed to update'}); 
+                    console.log(plan.liked.length);
                     return res.json({message: 'plan updated', size: plan.liked.length});
                 })
                 
@@ -49,6 +50,7 @@ module.exports = function(app, Plan)
                 plan.currentPeople = plan.liked.length
                 plan.save(function(err){
                     if(err) res.status(500).json({error: 'failed to update'}); 
+                    console.log(plan.liked.length);
                     return res.json({message: 'plan updated', size: plan.liked.length});
                 })
                 
@@ -60,7 +62,7 @@ module.exports = function(app, Plan)
     });
     // DELETE Plan
     app.delete('/api/plan/:plan_id', function(req, res){
-        Plan.remove({ _id: req.params.plan_id }, function(err, output){
+        Plan.deleteOne({ _id: req.params.plan_id }, function(err, output){
             if(err) return res.status(500).json({ error: "database failure" });
             res.json({message: "deleted"});
         })
